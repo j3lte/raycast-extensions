@@ -1,6 +1,6 @@
 # Unicode Symbols
 
-## [Improvements] - {PR_MERGE_DATE}
+## [Improvements] - 2025-09-24
 
 - Update to `unidata16` to version `1.1.0`, which contains a bit more info
 - Improve generate script to add back Tab and add mirror and age code
