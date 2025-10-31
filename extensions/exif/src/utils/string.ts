@@ -7,31 +7,44 @@
  */
 export const prettifyJson = (jsonString: string, maxLength: number = 50) => {
   let currentNumberLine = "";
-  return jsonString
-    .split("\n")
-    .reduce((acc, line) => {
-      if (line.trim().match(/^\d+,$/)) {
-        if (currentNumberLine.length === 0) {
-          currentNumberLine = line.replace(/\d+,/, "");
-        }
-        currentNumberLine += `${line.trimStart()} `;
-        if (currentNumberLine.length > maxLength) {
-          const res = `${currentNumberLine}`;
-          currentNumberLine = "";
-          return [...acc, res];
-        } else {
-          return [...acc];
-        }
-      } else if (currentNumberLine.length > 0) {
-        if (line.trim().match(/^\d+$/)) {
-          currentNumberLine += line.trimStart() + " ";
-          return [...acc];
-        }
-        const res = `${currentNumberLine}\n${line}`;
-        currentNumberLine = "";
-        return [...acc, res];
+  let currentIndent = "";
+
+  const result = jsonString.split("\n").reduce((acc, line) => {
+    const trimmedLine = line.trim();
+
+    // Check if this is a number line (with or without comma)
+    if (trimmedLine.match(/^\d+,?$/)) {
+      if (currentNumberLine.length === 0) {
+        // Start a new number line, capture the indentation
+        currentIndent = line.replace(/\d+,?/, "");
+        currentNumberLine = currentIndent;
       }
+
+      currentNumberLine += `${trimmedLine} `;
+
+      if (currentNumberLine.length > maxLength) {
+        // Flush the current line and start fresh
+        acc.push(currentNumberLine.trimEnd());
+        currentNumberLine = currentIndent;
+      }
+
+      return acc;
+    } else {
+      // Not a number line, flush any accumulated numbers first
+      if (currentNumberLine.length > currentIndent.length) {
+        acc.push(currentNumberLine.trimEnd());
+        currentNumberLine = "";
+        currentIndent = "";
+      }
+
       return [...acc, line];
-    }, [] as string[])
-    .join("\n");
+    }
+  }, [] as string[]);
+
+  // Handle any remaining accumulated number line
+  if (currentNumberLine.length > currentIndent.length) {
+    result.push(currentNumberLine.trimEnd());
+  }
+
+  return result.join("\n");
 };
