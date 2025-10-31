@@ -20,11 +20,10 @@ export const prettifyJson = (jsonString: string, maxLength: number = 50) => {
           currentNumberLine = "";
           return [...acc, res];
         } else {
-          currentNumberLine += line.trimStart() + " ";
           return [...acc];
         }
       } else if (currentNumberLine.length > 0) {
-        if (line.trim().match(/^\d+,?$/)) {
+        if (line.trim().match(/^\d+$/)) {
           currentNumberLine += line.trimStart() + " ";
           return [...acc];
         }
