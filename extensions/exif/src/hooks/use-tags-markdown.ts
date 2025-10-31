@@ -2,12 +2,9 @@ import type { Tags } from "exifreader";
 import { useMemo } from "react";
 import stringifyObject from "stringify-object";
 
-import { tagsToMarkdownTable } from "@/utils/exif";
 import { prettifyJson } from "@/utils/string";
 
 const useTagsMarkdown = (tags: Tags, file: string, maxNumberLineLength: number = 50) => {
-  const table = useMemo(() => `## Tags\n${tagsToMarkdownTable(tags)}`, [tags]);
-
   const image = useMemo(() => {
     const url = file.startsWith("file://") ? file.slice(7) : file;
     return ["## Image", `<img height="150" src="${url}" />`].join("\n");
@@ -38,10 +35,13 @@ const useTagsMarkdown = (tags: Tags, file: string, maxNumberLineLength: number =
   }, [tags]);
 
   const stringified = useMemo(() => stringifyObject(tags, { indent: "  ", inlineCharacterLimit: 25 }), [tags]);
-  const stringifiedJson = useMemo(() => prettifyJson(stringified, maxNumberLineLength), [stringified]);
+  const stringifiedJson = useMemo(
+    () => prettifyJson(stringified, maxNumberLineLength),
+    [stringified, maxNumberLineLength],
+  );
   const rawTagsMarkdown = useMemo(() => ["## Raw Tags", "```", stringifiedJson, "```"].join("\n"), [stringifiedJson]);
 
-  return { table, image, thumbnail, location, rawTagsMarkdown, stringifiedJson };
+  return { image, thumbnail, location, rawTagsMarkdown, stringifiedJson };
 };
 
 export default useTagsMarkdown;

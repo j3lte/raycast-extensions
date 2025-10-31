@@ -14,7 +14,7 @@ export const prettifyJson = (jsonString: string, maxLength: number = 50) => {
         if (currentNumberLine.length === 0) {
           currentNumberLine = line.replace(/\d+,/, "");
         }
-        currentNumberLine += line.trimStart() + " ";
+        currentNumberLine += `${line.trimStart()} `;
         if (currentNumberLine.length > maxLength) {
           const res = `${currentNumberLine}`;
           currentNumberLine = "";

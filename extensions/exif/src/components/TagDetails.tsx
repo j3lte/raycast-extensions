@@ -7,28 +7,22 @@ export const TagDetails = memo(({ fileName, tags }: { fileName: string; tags: Ta
   const tagsArray: [string, string, string][] = Object.entries(tags)
     .filter(([key]) => !["Thumbnail", "Images"].includes(key) && !key.startsWith("undefined-"))
     .sort(([key1], [key2]) => key1.localeCompare(key2))
-    .map(([k, value]) => {
+    .map(([k, value], index, array) => {
       const key = k.trim();
+      const keyVal = array.findIndex(([k]) => k.trim() === key) === index ? key : `${key}-${index}`;
       if (["ApplicationNotes", "MakerNote"].includes(key)) {
-        return [key, "..."];
+        return [keyVal, key, "..."];
       }
       if (value === undefined) {
-        return [key, "(unknown)"];
+        return [keyVal, key, "(unknown)"];
       }
       if (value instanceof Array) {
-        return [key, value.map((v) => v.description).join(", ")];
+        return [keyVal, key, value.map((v) => v.description).join(", ")];
       }
       if (value instanceof Date) {
-        return [key, value.toISOString()];
+        return [keyVal, key, value.toISOString()];
       }
-      return [key, value.description];
-    })
-    .map(([key, value], index, array) => {
-      const keyVal = key.trim();
-      if (array.findIndex(([k]) => k.trim() === keyVal) === index) {
-        return [keyVal, key, value];
-      }
-      return [`${keyVal}-${index}`, key, value];
+      return [keyVal, key, value.description];
     });
 
   return (
