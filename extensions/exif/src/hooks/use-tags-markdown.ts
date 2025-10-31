@@ -1,9 +1,11 @@
 import type { Tags } from "exifreader";
 import { useMemo } from "react";
+import stringifyObject from "stringify-object";
 
 import { tagsToMarkdownTable } from "@/utils/exif";
+import { prettifyJson } from "@/utils/string";
 
-const useTagsMarkdown = (tags: Tags, file: string) => {
+const useTagsMarkdown = (tags: Tags, file: string, maxNumberLineLength: number = 50) => {
   const table = useMemo(() => `## Tags\n${tagsToMarkdownTable(tags)}`, [tags]);
 
   const image = useMemo(() => {
@@ -28,19 +30,18 @@ const useTagsMarkdown = (tags: Tags, file: string) => {
       const osmUrl = `https://www.openstreetmap.org/#map=20/${latRef}${lat}/${lonRef}${lon}`;
       const bingUrl = `https://www.bing.com/maps/?v=2&cp=${latRef}${lat}~${lonRef}${lon}&lvl=18.0&sty=c`;
       return [
-        "## GPS",
-        "> This image has GPS coordinates, click the link below to open a map.\n",
+        "## GPS coordinates found",
         `Open in: [Google Maps](${url}) | [OpenStreetMap](${osmUrl}) | [Bing Maps](${bingUrl})`,
       ].join("\n");
     }
     return "";
   }, [tags]);
 
-  const rawTags = useMemo(() => {
-    return ["## Raw Tags", "```", JSON.stringify(tags, null, 2), "```"].join("\n");
-  }, [tags]);
+  const stringified = useMemo(() => stringifyObject(tags, { indent: "  ", inlineCharacterLimit: 25 }), [tags]);
+  const stringifiedJson = useMemo(() => prettifyJson(stringified, maxNumberLineLength), [stringified]);
+  const rawTagsMarkdown = useMemo(() => ["## Raw Tags", "```", stringifiedJson, "```"].join("\n"), [stringifiedJson]);
 
-  return { table, image, thumbnail, location, rawTags };
+  return { table, image, thumbnail, location, rawTagsMarkdown, stringifiedJson };
 };
 
 export default useTagsMarkdown;
