@@ -1,8 +1,10 @@
 import type { Tags } from "exifreader";
+import { parse } from "node:path";
 import { type FC, useEffect, useMemo } from "react";
 
 import { Action, ActionPanel, Detail, Icon, Toast, showToast, useNavigation } from "@raycast/api";
 
+import { TagDetails } from "@/components/TagDetails";
 import useTagsMarkdown from "@/hooks/use-tags-markdown";
 
 import RawDataScreen from "./RawData";
@@ -16,7 +18,9 @@ const TagsScreen: FC<TagsScreenProps> = ({ tags, file }) => {
   const { push } = useNavigation();
 
   const tagsString = useMemo(() => JSON.stringify(tags, null, 2), [tags]);
-  const { table, image, location, thumbnail } = useTagsMarkdown(tags, file);
+  const { rawTags, image, location, thumbnail } = useTagsMarkdown(tags, file);
+
+  const fileName = parse(file).name + parse(file).ext;
 
   useEffect(() => {
     showToast({ style: Toast.Style.Success, title: "Tags", message: "Tags loaded" });
@@ -33,7 +37,8 @@ const TagsScreen: FC<TagsScreenProps> = ({ tags, file }) => {
           ) : null}
         </ActionPanel>
       }
-      markdown={[image, thumbnail, location, table].join("\n")}
+      markdown={[image, thumbnail, location, rawTags].join("\n")}
+      metadata={<TagDetails fileName={fileName} tags={tags} />}
     />
   );
 };

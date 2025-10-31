@@ -36,12 +36,11 @@ const useTagsMarkdown = (tags: Tags, file: string) => {
     return "";
   }, [tags]);
 
-  return {
-    table,
-    image,
-    thumbnail,
-    location,
-  };
+  const rawTags = useMemo(() => {
+    return ["## Raw Tags", "```", JSON.stringify(tags, null, 2), "```"].join("\n");
+  }, [tags]);
+
+  return { table, image, thumbnail, location, rawTags };
 };
 
 export default useTagsMarkdown;

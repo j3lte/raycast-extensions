@@ -1,6 +1,5 @@
 import type { Tags } from "exifreader";
 import ExifReader from "exifreader";
-import fetch from "node-fetch";
 import fs from "node:fs/promises";
 
 import { showActionToast, showFailureToast } from "./toast";
@@ -18,7 +17,8 @@ export const tagsToMarkdownTable = (tags: Tags): string => {
     // Filter out image tags because it's shown as an image
     .filter(([key]) => !["Thumbnail", "Images"].includes(key))
     .sort(([key1], [key2]) => key1.localeCompare(key2))
-    .map(([key, value]) => {
+    .map(([k, value]) => {
+      const key = k.trim();
       if (value === undefined) {
         return `| ${key} | \`undefined\` | \`undefined\` |`;
       }
@@ -37,14 +37,11 @@ export const tagsToMarkdownTable = (tags: Tags): string => {
     })
     .join("\n");
 
-  return `| **Tag** | **Value** | **Raw Value** |\n| --- | --- | --- |\n${table}`;
+  return `| **Tag** | **Value** | **Raw Value** |\n| --- | --- | --- |\n${table}\n| --- | --- | --- |`;
 };
 
 export const exifFromFile = async (file: string): Promise<Tags | null> => {
-  const toast = await showActionToast({
-    title: "Loading EXIF data...",
-    cancelable: false,
-  });
+  const toast = await showActionToast({ title: "Loading EXIF data...", cancelable: false });
   try {
     const filePath = decodeURIComponent(file).replace("file://", "");
     const buff = await fs.readFile(filePath);
@@ -64,10 +61,7 @@ export const exifFromUrl = async (url: string): Promise<Tags | null> => {
     if (!["http:", "https:"].includes(urlObj.protocol)) {
       throw new Error("Invalid URL protocol");
     }
-    const controller = await showActionToast({
-      title: "Loading EXIF data...",
-      cancelable: true,
-    });
+    const controller = await showActionToast({ title: "Loading EXIF data...", cancelable: true });
     const buff = await fetch(urlObj, { signal: controller.signal }).then((res) => res.arrayBuffer());
     const tags = ExifReader.load(buff, { includeUnknown: true });
 
