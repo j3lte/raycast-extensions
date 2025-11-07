@@ -1,18 +1,16 @@
-import { memo, useMemo } from "react";
-
-import { Action, ActionPanel, Icon, List, getPreferenceValues } from "@raycast/api";
-
-import type { ArchiveItem } from "@/api/archive";
-import ArchiveListItemDetail from "@/components/ArchiveListItemDetail";
-import { TestMirrors } from "@/components/TestMirrors";
+import { type ComponentType, memo, useMemo } from "react";
+import { Action, ActionPanel, Icon, List } from "@raycast/api";
+import type { ArchiveItem } from "@/api";
+import { useMirrorDomain } from "@/hooks/use-mirror-domain";
+import { ArchiveListItemDetail } from "@/components/ArchiveListItemDetail";
+import { TestMirrorsAction } from "@/components/TestMirrorsAction";
 
 interface ArchiveListItemProps {
   item: ArchiveItem;
 }
 
-const mirror = getPreferenceValues<Preferences>().mirror ?? "https://annas-archive.org";
-
 const ArchiveListItemF = ({ item }: ArchiveListItemProps) => {
+  const { url: mirror } = useMirrorDomain();
   const icon = useMemo(() => {
     if (item.cover !== null) {
       return { source: item.cover };
@@ -35,7 +33,7 @@ const ArchiveListItemF = ({ item }: ArchiveListItemProps) => {
             />
           </ActionPanel.Section>
           <ActionPanel.Section title="Mirrors">
-            <Action.Push title="Test Mirrors" target={<TestMirrors />} icon={Icon.List} />
+            <TestMirrorsAction />
           </ActionPanel.Section>
         </ActionPanel>
       }
@@ -43,6 +41,4 @@ const ArchiveListItemF = ({ item }: ArchiveListItemProps) => {
   );
 };
 
-const ArchiveListItem = memo(ArchiveListItemF);
-
-export default ArchiveListItem;
+export const ArchiveListItem = memo(ArchiveListItemF) as ComponentType<ArchiveListItemProps>;

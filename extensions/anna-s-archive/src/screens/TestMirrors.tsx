@@ -1,9 +1,7 @@
 import { List } from "@raycast/api";
-
-import { MirrorItem } from "@/components/MirrorItem";
 import { useMirrorDomain } from "@/hooks/use-mirror-domain";
-
-const mirrorList = ["https://annas-archive.org", "https://annas-archive.se", "https://annas-archive.li"];
+import { MirrorItem } from "@/components/MirrorItem";
+import { MIRROR_LIST } from "@/constants";
 
 export const TestMirrors = () => {
   const usedMirror = useMirrorDomain();
@@ -20,7 +18,7 @@ export const TestMirrors = () => {
         </List.Section>
       ) : null}
       <List.Section title="All Mirrors">
-        {mirrorList.map((mirror) => (
+        {MIRROR_LIST.map((mirror) => (
           <MirrorItem key={mirror} mirror={mirror} selected={mirror === usedMirror.url} />
         ))}
       </List.Section>

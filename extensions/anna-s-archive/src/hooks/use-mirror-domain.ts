@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-
 import { getPreferenceValues } from "@raycast/api";
+import { DEFAULT_MIRROR } from "@/constants";
 
 export const useMirrorDomain = () => {
   return useMemo(() => {
@@ -11,6 +11,6 @@ export const useMirrorDomain = () => {
       }
       return { custom: true, url: `https://${customMirror}` };
     }
-    return { custom: false, url: getPreferenceValues<Preferences>().mirror ?? "https://annas-archive.org" };
+    return { custom: false, url: getPreferenceValues<Preferences>().mirror ?? DEFAULT_MIRROR };
   }, []);
 };

@@ -1,13 +1,11 @@
 import { useCallback, useMemo, useState } from "react";
-
-import { Action, ActionPanel, Icon, List, useNavigation } from "@raycast/api";
-
-import ArchiveListItem from "@/components/ArchiveListItem";
-import { TestMirrors } from "@/components/TestMirrors";
+import { ActionPanel, Icon, List, useNavigation } from "@raycast/api";
 import { useArchive } from "@/hooks/use-archive";
+import { useMirrorDomain } from "@/hooks/use-mirror-domain";
 import { isEmpty } from "@/utils";
-
-import { useMirrorDomain } from "./hooks/use-mirror-domain";
+import { TestMirrors } from "@/screens/TestMirrors";
+import { ArchiveListItem } from "@/components/ArchiveListItem";
+import { TestMirrorsAction } from "@/components/TestMirrorsAction";
 
 const Command = () => {
   const { push } = useNavigation();
@@ -28,7 +26,7 @@ const Command = () => {
     return data;
   }, [data, search]);
 
-  const emptyViewTitle = useMemo<{ title: string; description?: string }>(() => {
+  const emptyViewTitle = useMemo(() => {
     if (isLoading) {
       return { title: "Loading..." };
     }
@@ -47,31 +45,19 @@ const Command = () => {
       filtering={false}
       isShowingDetail={listData.length > 0}
     >
-      {!error && !isLoading && listData.length === 0 ? (
+      {(!error && !isLoading && listData.length === 0) || error ? (
         <List.EmptyView
-          title={emptyViewTitle.title}
-          description={emptyViewTitle.description}
+          title={error ? "Error" : emptyViewTitle.title}
+          description={error ? error.message : emptyViewTitle.description}
           icon={{ source: Icon.Book }}
           actions={
             <ActionPanel>
-              <Action.Push title="Test Mirrors" target={<TestMirrors />} icon={Icon.List} />
+              <TestMirrorsAction />
             </ActionPanel>
           }
         />
       ) : undefined}
-      {error ? (
-        <List.EmptyView
-          title="Error"
-          description={error.message}
-          icon={{ source: Icon.Book }}
-          actions={
-            <ActionPanel>
-              <Action.Push title="Test Mirrors" target={<TestMirrors />} icon={Icon.List} />
-            </ActionPanel>
-          }
-        />
-      ) : undefined}
-      {!error ? listData.map((item) => <ArchiveListItem key={item.id} item={item} />) : undefined}
+      {!error && listData.map((item) => <ArchiveListItem key={item.id} item={item} />)}
     </List>
   );
 };

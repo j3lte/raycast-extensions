@@ -1,9 +1,7 @@
 import { useMemo } from "react";
-
 import { showFailureToast, useFetch } from "@raycast/utils";
-
-import type { ArchiveItem } from "@/api/archive";
-import { parseArchivePage } from "@/api/archive/index";
+import { type ArchiveItem, parseArchivePage } from "@/api";
+import { USER_AGENT } from "@/constants";
 
 export const useArchive = (baseURL: string, onErrorPrimaryAction?: () => void, queryText?: string) => {
   const url = useMemo(() => {
@@ -18,27 +16,21 @@ export const useArchive = (baseURL: string, onErrorPrimaryAction?: () => void, q
     error,
     isLoading,
     revalidate,
-  } = useFetch<ArchiveItem[]>(url!, {
+  } = useFetch<ArchiveItem[]>(url ?? "", {
     headers: {
-      "User-Agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36",
+      "User-Agent": USER_AGENT,
     },
     execute: url !== null,
     parseResponse: async (response) => {
       if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error(`No results found : ${response.statusText}`);
-        }
-        if (response.status === 500) {
-          throw new Error(`Internal server error : ${response.statusText}`);
-        }
-        if (response.status === 502) {
-          throw new Error(`Bad gateway : ${response.statusText}`);
-        }
-        if (response.status === 503) {
-          throw new Error(`Service unavailable : ${response.statusText}`);
-        }
-        throw new Error(`Network response was not ok : ${response.statusText}`);
+        const errorMessages: Record<number, string> = {
+          404: "No results found",
+          500: "Internal server error",
+          502: "Bad gateway",
+          503: "Service unavailable",
+        };
+        const message = errorMessages[response.status] ?? "Network response was not ok";
+        throw new Error(`${message}: ${response.statusText}`);
       }
       const text = await response.text();
       return parseArchivePage(text);

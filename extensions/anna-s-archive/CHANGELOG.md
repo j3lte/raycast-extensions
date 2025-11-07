@@ -6,6 +6,7 @@
 - Add screen to test mirrors
 - Add option to use a custom mirror
 - A little more verbose error handling
+- Refactored duplicate code
 
 ## [Bugfix] - 2025-10-14
 

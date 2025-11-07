@@ -1,5 +1,4 @@
 import { Action, ActionPanel, Color, Icon, List, openExtensionPreferences } from "@raycast/api";
-
 import { useMirrorTest } from "@/hooks/use-mirror-test";
 
 export const MirrorItem = ({
