@@ -1,5 +1,12 @@
 # Anna's Archive Changelog
 
+## [Improvements] - {PR_MERGE_DATE}
+
+- Update dependencies
+- Add screen to test mirrors
+- Add option to use a custom mirror
+- A little more verbose error handling
+
 ## [Bugfix] - 2025-10-14
 
 - Fix issue where search page was not properly parsed [#21844](https://github.com/raycast/extensions/issues/21844)

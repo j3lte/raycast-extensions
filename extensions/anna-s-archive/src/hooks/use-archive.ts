@@ -5,7 +5,7 @@ import { showFailureToast, useFetch } from "@raycast/utils";
 import type { ArchiveItem } from "@/api/archive";
 import { parseArchivePage } from "@/api/archive/index";
 
-export const useArchive = (baseURL: string, queryText?: string) => {
+export const useArchive = (baseURL: string, onErrorPrimaryAction?: () => void, queryText?: string) => {
   const url = useMemo(() => {
     if (queryText && queryText.length > 0) {
       return `${baseURL}/search?q=${encodeURIComponent(queryText)}`;
@@ -26,7 +26,19 @@ export const useArchive = (baseURL: string, queryText?: string) => {
     execute: url !== null,
     parseResponse: async (response) => {
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        if (response.status === 404) {
+          throw new Error(`No results found : ${response.statusText}`);
+        }
+        if (response.status === 500) {
+          throw new Error(`Internal server error : ${response.statusText}`);
+        }
+        if (response.status === 502) {
+          throw new Error(`Bad gateway : ${response.statusText}`);
+        }
+        if (response.status === 503) {
+          throw new Error(`Service unavailable : ${response.statusText}`);
+        }
+        throw new Error(`Network response was not ok : ${response.statusText}`);
       }
       const text = await response.text();
       return parseArchivePage(text);
@@ -34,6 +46,9 @@ export const useArchive = (baseURL: string, queryText?: string) => {
     onError: (error) => {
       showFailureToast(error, {
         title: "Failed to fetch data",
+        primaryAction: onErrorPrimaryAction
+          ? { title: "Test Mirrors", onAction: () => onErrorPrimaryAction() }
+          : undefined,
       });
     },
   });
