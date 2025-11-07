@@ -3,7 +3,7 @@ import { showFailureToast, useFetch } from "@raycast/utils";
 import { type ArchiveItem, parseArchivePage } from "@/api";
 import { USER_AGENT } from "@/constants";
 
-export const useArchive = (baseURL: string, onErrorPrimaryAction?: () => void, queryText?: string) => {
+export const useArchive = (baseURL: string, onErrorPrimaryAction: () => void, queryText?: string) => {
   const url = useMemo(() => {
     if (queryText && queryText.length > 0) {
       return `${baseURL}/search?q=${encodeURIComponent(queryText)}`;
