@@ -1,6 +1,6 @@
 # Anna's Archive Changelog
 
-## [Improvements] - {PR_MERGE_DATE}
+## [Improvements] - 2025-11-07
 
 - Update dependencies
 - Add screen to test mirrors
