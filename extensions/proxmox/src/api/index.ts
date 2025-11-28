@@ -80,7 +80,15 @@ function usePveFetch<T>(url: string, options?: RequestInit) {
     return () => clearInterval(handle);
   }, [result.revalidate]);
 
-  return result;
+  const { error, ...rest } = result;
+
+  const returnError =
+    error && error.message && error.message.includes("verify") && error.message.includes("certificate") ? null : error;
+
+  return {
+    ...rest,
+    error: returnError,
+  };
 }
 
 export function useVmList() {

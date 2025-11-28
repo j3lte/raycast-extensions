@@ -41,3 +41,7 @@ export function formatStorageSize(size: number): string {
 
   return `${size.toFixed(2)} ${units[unitIndex]}iB`;
 }
+
+export function formatCPU(maxcpu: number): string {
+  return Math.round(maxcpu) + " CPU(s)";
+}
