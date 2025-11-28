@@ -14,10 +14,20 @@
   "license": "MIT",
   "commands": [
     {
-      "name": "index",
+      "name": "vms",
       "title": "Manage VMs",
       "subtitle": "Proxmox",
       "description": "Manage your Proxmox VMs from Raycast",
+      "mode": "view",
+      "keywords": [
+        "pve"
+      ]
+    },
+    {
+      "name": "storage",
+      "title": "Manage Storage",
+      "subtitle": "Proxmox",
+      "description": "Manage your Proxmox storage from Raycast",
       "mode": "view",
       "keywords": [
         "pve"
@@ -52,7 +62,8 @@
   ],
   "dependencies": {
     "@raycast/api": "^1.101.0",
-    "@raycast/utils": "^2.2.0"
+    "@raycast/utils": "^2.2.0",
+    "filesize": "^11.0.13"
   },
   "devDependencies": {
     "@raycast/eslint-config": "^2.0.4",

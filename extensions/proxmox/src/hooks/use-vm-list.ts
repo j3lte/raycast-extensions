@@ -3,7 +3,7 @@ import { PveVm } from "../types";
 import { usePveFetch } from "./use-pve-fetch";
 import { showFailureToast } from "@raycast/utils";
 
-function useVmListInternal() {
+const useVmListInternal = () => {
   const [showErrorScreen, setShowErrorScreen] = useState<boolean>(false);
   const url = "api2/json/cluster/resources";
   const search = new URLSearchParams({
@@ -21,9 +21,9 @@ function useVmListInternal() {
     ...result,
     showErrorScreen,
   };
-}
+};
 
-export function useVmList() {
+export const useVmList = () => {
   const [type, setType] = useState<string>("all");
 
   const { data, ...rest } = useVmListInternal();
@@ -34,4 +34,4 @@ export function useVmList() {
     data: filteredData,
     setType,
   };
-}
+};

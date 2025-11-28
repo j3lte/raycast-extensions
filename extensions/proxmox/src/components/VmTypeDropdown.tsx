@@ -6,7 +6,7 @@ type VmTypeDropdownProps = {
   onChange: (value: string) => void;
 };
 
-export function VmTypeDropdown({ onChange }: VmTypeDropdownProps) {
+export const VmTypeDropdown = ({ onChange }: VmTypeDropdownProps) => {
   return (
     <List.Dropdown tooltip="VM Types" onChange={onChange}>
       {TYPES.map((type) => (
@@ -14,4 +14,4 @@ export function VmTypeDropdown({ onChange }: VmTypeDropdownProps) {
       ))}
     </List.Dropdown>
   );
-}
+};

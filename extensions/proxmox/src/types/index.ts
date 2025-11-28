@@ -36,6 +36,24 @@ export interface PveVm {
   vmid: number;
 }
 
+export interface PveStorage {
+  id: string;
+  disk: number;
+  maxdisk: number;
+  shared: number;
+  content: string;
+  status: string;
+  plugintype: string;
+  storage: string;
+  node: string;
+}
+
+export type PveStorageParsed = PveStorage & {
+  contentTypes: string[];
+  sharedParsed: boolean | null;
+  maxdiskParsed: string;
+};
+
 export interface ApiResponse<T> {
   data: T;
 }

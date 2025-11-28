@@ -2,7 +2,11 @@ import { List } from "@raycast/api";
 import { PveVmStatus, type PveVm, PveVmTypes } from "../types";
 import { formatCPU, formatPercentage, formatShortTime, formatStorageSize } from "../utils/format";
 
-export function VmDetail({ vm }: { vm: PveVm }) {
+type VmDetailProps = {
+  vm: PveVm;
+};
+
+export const VmDetail = ({ vm }: VmDetailProps) => {
   const hasDetails = vm.status !== PveVmStatus.stopped;
   let cpu, memory, disk;
   if (hasDetails) {
@@ -50,4 +54,4 @@ export function VmDetail({ vm }: { vm: PveVm }) {
       }
     />
   );
-}
+};

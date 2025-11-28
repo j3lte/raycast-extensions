@@ -3,15 +3,13 @@ import { MutatePromise, showFailureToast } from "@raycast/utils";
 import { ALL_ACTIONS } from "../utils/const";
 import { PveVm, PveVmStatus, PveVmTypes, VmAction } from "../types";
 
-export function VmActionPanel({
-  vm,
-  revalidate,
-  mutate,
-}: {
+type VmActionPanelProps = {
   vm: PveVm;
   revalidate: () => void;
   mutate: MutatePromise<PveVm[] | undefined>;
-}) {
+};
+
+export const VmActionPanel = ({ vm, revalidate, mutate }: VmActionPanelProps) => {
   const handleAction = async (vm: PveVm, { title, labels, func, needConfirm = true }: VmAction) => {
     const confirm =
       !needConfirm ||
@@ -93,4 +91,4 @@ export function VmActionPanel({
       />
     </ActionPanel>
   );
-}
+};

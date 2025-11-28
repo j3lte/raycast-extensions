@@ -1,7 +1,7 @@
 import { Icon, Image, Color } from "@raycast/api";
 import { PveVmStatus } from "../types";
 
-export function getStatusIcon(status: PveVmStatus): Image {
+export function getVmStatusIcon(status: PveVmStatus): Image {
   switch (status) {
     case PveVmStatus.running:
       return {
@@ -22,5 +22,22 @@ export function getStatusIcon(status: PveVmStatus): Image {
       return {
         source: Icon.QuestionMark,
       };
+  }
+}
+
+export function getStorageStatusIcon(status: string): Image {
+  switch (status) {
+    case "available":
+      return {
+        source: Icon.Checkmark,
+        tintColor: Color.Green,
+      };
+      break;
+    default:
+      return {
+        source: Icon.QuestionMark,
+        tintColor: Color.SecondaryText,
+      };
+      break;
   }
 }
