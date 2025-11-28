@@ -5,7 +5,7 @@ import { ApiResponse, FetchOptions } from "../types";
 import { buildHeaders } from "../utils/headers";
 
 type PveFetchOptions<T> = FetchOptions<T> & {
-  timerInterval?: number;
+  timerInterval?: number | null;
 };
 
 export const usePveFetch = <T>(url: string, options?: PveFetchOptions<T>) => {
@@ -23,12 +23,16 @@ export const usePveFetch = <T>(url: string, options?: PveFetchOptions<T>) => {
   const result = useFetch<T>(fetchUrl, fetchOptions);
 
   useEffect(() => {
+    if (timerInterval === null) {
+      return;
+    }
+
     const handle = setInterval(() => {
       result.revalidate();
     }, timerInterval);
 
     return () => clearInterval(handle);
-  }, [result.revalidate]);
+  }, [result.revalidate, timerInterval]);
 
   return result;
 };

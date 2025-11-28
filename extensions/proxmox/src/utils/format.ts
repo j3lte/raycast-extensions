@@ -1,3 +1,4 @@
+import { filesize } from "filesize";
 export function formatShortTime(time: number): string {
   const units = "smhdy";
   const rates = [60, 60, 24, 365];
@@ -45,3 +46,8 @@ export function formatStorageSize(size: number): string {
 export function formatCPU(maxcpu: number): string {
   return Math.round(maxcpu) + " CPU(s)";
 }
+
+export const formatNumberAsBoolean = (value: number | undefined): string =>
+  typeof value === "number" ? (value === 1 ? "Yes" : "No") : "Unknown";
+export const formatNumberAsSize = (value: number | undefined): string =>
+  typeof value === "number" ? filesize(value) : "Unknown";

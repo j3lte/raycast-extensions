@@ -27,7 +27,6 @@ export const useStorageList = () => {
         .map((type) => type.trim())
         .filter((type) => type !== "")
         .sort((a, b) => a.localeCompare(b)),
-      sharedParsed: storage.shared === 0 ? false : storage.shared === 1 ? true : null,
       maxdiskParsed: filesize(storage.maxdisk),
     })) ?? [];
 

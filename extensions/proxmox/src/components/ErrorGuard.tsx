@@ -2,7 +2,7 @@ import { Action, ActionPanel, Detail, Icon, openExtensionPreferences } from "@ra
 import { PropsWithChildren } from "react";
 
 type ErrorGuardProps = PropsWithChildren<{
-  showErrorScreen: boolean;
+  showErrorScreen?: boolean;
 }>;
 
 export const ErrorGuard = ({ children, showErrorScreen }: ErrorGuardProps) => {

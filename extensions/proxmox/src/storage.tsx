@@ -3,6 +3,7 @@ import { getStorageStatusIcon } from "./utils/ui";
 import { useStorageList } from "./hooks/use-storage-list";
 import { StorageDetail } from "./components/StorageDetail";
 import { ErrorGuard } from "./components/ErrorGuard";
+import { StorageContentList } from "./screens/StorageContentList";
 
 const Command = () => {
   const { isLoading, data, revalidate, showErrorScreen } = useStorageList();
@@ -31,6 +32,15 @@ const Command = () => {
             accessories={[{ text: storage.maxdiskParsed, tooltip: `Max disk: ${storage.maxdiskParsed}` }]}
             keywords={storage.contentTypes}
             detail={<StorageDetail storage={storage} />}
+            actions={
+              <ActionPanel>
+                <Action.Push
+                  title="View Content"
+                  icon={Icon.List}
+                  target={<StorageContentList node={storage.node} id={storage.storage} />}
+                />
+              </ActionPanel>
+            }
           />
         ))}
       </List>
