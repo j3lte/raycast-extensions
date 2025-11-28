@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { PveStorageContent, WithShowErrorScreen } from "../types";
-import { usePveFetch, type PveFetchWithDataResult } from "./use-pve-fetch";
 import { showFailureToast } from "@raycast/utils";
+import type { PveStorageContent, WithShowErrorScreen } from "@/types";
+import { type PveFetchWithDataResult, usePveFetch } from "@/hooks/use-pve-fetch";
 
 export const useStorageContent = (
   node: string,

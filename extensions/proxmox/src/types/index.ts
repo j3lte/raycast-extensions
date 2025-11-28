@@ -1,4 +1,4 @@
-import { useFetch } from "@raycast/utils";
+import type { useFetch } from "@raycast/utils";
 
 export type FetchOptions<T> = Parameters<typeof useFetch<T>>[1];
 

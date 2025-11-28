@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { PveStorageParsed, WithShowErrorScreen } from "../types";
-import { usePveFetch, PveFetchWithDataResult } from "./use-pve-fetch";
-import { showFailureToast } from "@raycast/utils";
 import { filesize } from "filesize";
+import { useState } from "react";
+import { showFailureToast } from "@raycast/utils";
+import type { PveStorageParsed, WithShowErrorScreen } from "@/types";
+import { type PveFetchWithDataResult, usePveFetch } from "@/hooks/use-pve-fetch";
 
 export const useStorageList = (mock = false): WithShowErrorScreen<PveFetchWithDataResult<PveStorageParsed[]>> => {
   const [showErrorScreen, setShowErrorScreen] = useState<boolean>(false);

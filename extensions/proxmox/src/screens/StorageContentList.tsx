@@ -1,7 +1,7 @@
 import { Action, ActionPanel, Icon, List } from "@raycast/api";
-import { ErrorGuard } from "../components/ErrorGuard";
-import { useStorageContent } from "../hooks/use-storage-content";
-import { formatNumberAsSize } from "../utils/format";
+import { useStorageContent } from "@/hooks/use-storage-content";
+import { formatNumberAsSize } from "@/utils/format";
+import { ErrorGuard } from "@/components/ErrorGuard";
 
 type StorageContentListProps = {
   node: string;

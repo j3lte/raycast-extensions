@@ -1,9 +1,9 @@
-import { ActionPanel, List, Action, Icon } from "@raycast/api";
-import { getStorageStatusIcon } from "./utils/ui";
-import { useStorageList } from "./hooks/use-storage-list";
-import { StorageDetail } from "./components/StorageDetail";
-import { ErrorGuard } from "./components/ErrorGuard";
-import { StorageContentList } from "./screens/StorageContentList";
+import { Action, ActionPanel, Icon, List } from "@raycast/api";
+import { useStorageList } from "@/hooks/use-storage-list";
+import { getStorageStatusIcon } from "@/utils/ui";
+import { ErrorGuard } from "@/components/ErrorGuard";
+import { StorageDetail } from "@/components/StorageDetail";
+import { StorageContentList } from "@/screens/StorageContentList";
 
 const Command = () => {
   const { isLoading, data, revalidate, showErrorScreen } = useStorageList();

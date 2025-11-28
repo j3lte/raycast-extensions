@@ -1,6 +1,6 @@
 import { List } from "@raycast/api";
-import { PveVmStatus, type PveVm, PveVmTypes } from "../types";
-import { formatCPU, formatPercentage, formatShortTime, formatStorageSize } from "../utils/format";
+import { type PveVm, PveVmStatus, PveVmTypes } from "@/types";
+import { formatCPU, formatPercentage, formatShortTime, formatStorageSize } from "@/utils/format";
 
 type VmDetailProps = {
   vm: PveVm;

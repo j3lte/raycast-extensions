@@ -1,8 +1,8 @@
 import { List } from "@raycast/api";
-import { PveStorageParsed } from "../types/index";
-import { ErrorDetailGuard } from "./ErrorDetailGuard";
-import { useStorageStatus } from "../hooks/use-storage-status";
-import { formatNumberAsBoolean, formatNumberAsSize } from "../utils/format";
+import type { PveStorageParsed } from "@/types";
+import { useStorageStatus } from "@/hooks/use-storage-status";
+import { formatNumberAsBoolean, formatNumberAsSize } from "@/utils/format";
+import { ErrorDetailGuard } from "@/components/ErrorDetailGuard";
 
 type StorageDetailProps = {
   storage: PveStorageParsed;

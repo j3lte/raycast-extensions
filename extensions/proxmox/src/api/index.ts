@@ -1,6 +1,6 @@
 import { getPreferenceValues } from "@raycast/api";
-import { buildHeaders } from "../utils/headers";
-import { ApiResponse, PveVm } from "../types";
+import type { ApiResponse, PveVm } from "@/types";
+import { buildHeaders } from "@/utils/headers";
 
 async function pveFetch<T = unknown>(url: string, options?: RequestInit) {
   const preferences = getPreferenceValues<Preferences>();

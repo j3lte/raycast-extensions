@@ -1,10 +1,10 @@
-import { ActionPanel, List, Action, Icon } from "@raycast/api";
-import { useVmList } from "./hooks/use-vm-list";
-import { VmDetail } from "./components/VmDetail";
-import { getVmStatusIcon } from "./utils/ui";
-import { VmActionPanel } from "./components/VmActionPanel";
-import { VmTypeDropdown } from "./components/VmTypeDropdown";
-import { ErrorGuard } from "./components/ErrorGuard";
+import { Action, ActionPanel, Icon, List } from "@raycast/api";
+import { useVmList } from "@/hooks/use-vm-list";
+import { getVmStatusIcon } from "@/utils/ui";
+import { ErrorGuard } from "@/components/ErrorGuard";
+import { VmActionPanel } from "@/components/VmActionPanel";
+import { VmDetail } from "@/components/VmDetail";
+import { VmTypeDropdown } from "@/components/VmTypeDropdown";
 
 const Command = () => {
   const { isLoading, data, revalidate, mutate, setType, showErrorScreen } = useVmList();

@@ -1,5 +1,5 @@
+import type { PropsWithChildren } from "react";
 import { List } from "@raycast/api";
-import { PropsWithChildren } from "react";
 
 type ErrorDetailGuardProps = PropsWithChildren<{
   showErrorScreen?: boolean;

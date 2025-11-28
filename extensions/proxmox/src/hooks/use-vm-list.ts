@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { OmitData, PveVm, WithShowErrorScreen } from "../types";
-import { usePveFetch, type PveFetchResult } from "./use-pve-fetch";
 import { showFailureToast } from "@raycast/utils";
-import { getMockPveVmData } from "../utils/mock";
+import type { OmitData, PveVm, WithShowErrorScreen } from "@/types";
+import { type PveFetchResult, usePveFetch } from "@/hooks/use-pve-fetch";
+import { getMockPveVmData } from "@/utils/mock";
 
 const useVmListInternal = (enabled = true): WithShowErrorScreen<PveFetchResult<PveVm[]>> => {
   const [showErrorScreen, setShowErrorScreen] = useState<boolean>(false);

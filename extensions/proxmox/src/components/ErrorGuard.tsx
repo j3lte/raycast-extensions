@@ -1,5 +1,5 @@
+import type { PropsWithChildren } from "react";
 import { Action, ActionPanel, Detail, Icon, openExtensionPreferences } from "@raycast/api";
-import { PropsWithChildren } from "react";
 
 type ErrorGuardProps = PropsWithChildren<{
   showErrorScreen?: boolean;

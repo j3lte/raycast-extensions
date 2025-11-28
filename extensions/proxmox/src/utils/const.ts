@@ -1,4 +1,4 @@
-import { rebootVm, shutdownVm, startVm, stopVm, resumeVm, suspendVm } from "../api";
+import { rebootVm, resumeVm, shutdownVm, startVm, stopVm, suspendVm } from "@/api";
 
 export const ALL_ACTIONS = {
   start: {

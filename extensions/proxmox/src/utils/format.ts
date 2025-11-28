@@ -1,5 +1,6 @@
 import { filesize } from "filesize";
 import { getPreferenceValues } from "@raycast/api";
+
 export function formatShortTime(time: number): string {
   const units = "smhdy";
   const rates = [60, 60, 24, 365];

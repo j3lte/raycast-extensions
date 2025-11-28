@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { PveStorageStatus, WithShowErrorScreen } from "../types";
-import { usePveFetch, type PveFetchResult } from "./use-pve-fetch";
 import { showFailureToast } from "@raycast/utils";
+import type { PveStorageStatus, WithShowErrorScreen } from "@/types";
+import { type PveFetchResult, usePveFetch } from "@/hooks/use-pve-fetch";
 
 export const useStorageStatus = (node: string, id: string): WithShowErrorScreen<PveFetchResult<PveStorageStatus>> => {
   const [showErrorScreen, setShowErrorScreen] = useState<boolean>(false);

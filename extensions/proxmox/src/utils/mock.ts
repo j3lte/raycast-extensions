@@ -1,4 +1,4 @@
-import { PveVm, PveVmStatus, PveVmTypes } from "../types";
+import { type PveVm, PveVmStatus, PveVmTypes } from "@/types";
 
 export const getMockPveVmData = (): PveVm[] => {
   const baseVmList = [

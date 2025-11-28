@@ -1,9 +1,9 @@
+import { useEffect } from "react";
 import { getPreferenceValues } from "@raycast/api";
 import { useFetch } from "@raycast/utils";
-import { useEffect } from "react";
-import { ApiResponse, FetchOptions } from "../types";
-import { buildHeaders } from "../utils/headers";
-import { WithData, OmitData } from "../types/index";
+import type { ApiResponse, FetchOptions } from "@/types";
+import type { OmitData, WithData } from "@/types";
+import { buildHeaders } from "@/utils/headers";
 
 type PveFetchOptions<T> = FetchOptions<T> & {
   timerInterval?: number | null;
