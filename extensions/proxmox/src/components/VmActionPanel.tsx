@@ -1,8 +1,7 @@
 import { ActionPanel, Action, Icon, Color, showToast, Toast, confirmAlert } from "@raycast/api";
-import { PveVm, PveVmStatus, PveVmTypes } from "../api";
 import { MutatePromise, showFailureToast } from "@raycast/utils";
 import { ALL_ACTIONS } from "../utils/const";
-import { VmAction } from "../types";
+import { PveVm, PveVmStatus, PveVmTypes, VmAction } from "../types";
 
 export function VmActionPanel({
   vm,

@@ -1,5 +1,5 @@
 import { Icon, Image, Color } from "@raycast/api";
-import { PveVmStatus } from "../api";
+import { PveVmStatus } from "../types";
 
 export function getStatusIcon(status: PveVmStatus): Image {
   switch (status) {
