@@ -1,4 +1,5 @@
 import { filesize } from "filesize";
+import { getPreferenceValues } from "@raycast/api";
 export function formatShortTime(time: number): string {
   const units = "smhdy";
   const rates = [60, 60, 24, 365];
@@ -51,3 +52,9 @@ export const formatNumberAsBoolean = (value: number | undefined): string =>
   typeof value === "number" ? (value === 1 ? "Yes" : "No") : "Unknown";
 export const formatNumberAsSize = (value: number | undefined): string =>
   typeof value === "number" ? filesize(value) : "Unknown";
+
+export const formatBrowserUrl = (suffix: string) => {
+  const preferences = getPreferenceValues<Preferences>();
+  const url = new URL(suffix, preferences.serverUrl).toString();
+  return url;
+};

@@ -111,3 +111,7 @@ export type VmAction = {
   func: (vm: PveVm) => Promise<unknown>;
   needConfirm?: boolean;
 };
+
+export type WithShowErrorScreen<T extends object> = T & { showErrorScreen: boolean };
+export type WithData<T> = { data: T };
+export type OmitData<T extends object> = Omit<T, "data">;

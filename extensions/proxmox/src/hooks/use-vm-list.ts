@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { PveVm } from "../types";
-import { usePveFetch } from "./use-pve-fetch";
+import { OmitData, PveVm, WithShowErrorScreen } from "../types";
+import { usePveFetch, type PveFetchResult } from "./use-pve-fetch";
 import { showFailureToast } from "@raycast/utils";
+import { getMockPveVmData } from "../utils/mock";
 
-const useVmListInternal = (enabled = true) => {
+const useVmListInternal = (enabled = true): WithShowErrorScreen<PveFetchResult<PveVm[]>> => {
   const [showErrorScreen, setShowErrorScreen] = useState<boolean>(false);
   const url = "api2/json/cluster/resources";
   const search = new URLSearchParams({
@@ -24,11 +25,19 @@ const useVmListInternal = (enabled = true) => {
   };
 };
 
-export const useVmList = () => {
+/**
+ * Hook to get the list of VMs
+ *
+ * @param mock - If true, use mock data instead of fetching from the API
+ */
+export const useVmList = (
+  mock = false,
+): OmitData<ReturnType<typeof useVmListInternal>> & { setType: (type: string) => void; data: PveVm[] } => {
   const [type, setType] = useState<string>("all");
 
-  const { data, ...rest } = useVmListInternal();
-  const filteredData = data?.filter((vm) => (type === "all" ? true : vm.type === type)) ?? [];
+  const { data, ...rest } = useVmListInternal(!mock);
+  const filteredData =
+    (mock ? getMockPveVmData() : data)?.filter((vm) => (type === "all" ? true : vm.type === type)) ?? [];
 
   return {
     ...rest,

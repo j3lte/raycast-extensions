@@ -3,6 +3,7 @@ import { useFetch } from "@raycast/utils";
 import { useEffect } from "react";
 import { ApiResponse, FetchOptions } from "../types";
 import { buildHeaders } from "../utils/headers";
+import { WithData, OmitData } from "../types/index";
 
 type PveFetchOptions<T> = FetchOptions<T> & {
   timerInterval?: number | null;
@@ -36,3 +37,6 @@ export const usePveFetch = <T>(url: string, options?: PveFetchOptions<T>) => {
 
   return result;
 };
+
+export type PveFetchResult<T> = ReturnType<typeof usePveFetch<T>>;
+export type PveFetchWithDataResult<T> = OmitData<PveFetchResult<T>> & WithData<T>;
