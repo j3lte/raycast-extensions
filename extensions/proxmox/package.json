@@ -15,7 +15,7 @@
   "license": "MIT",
   "commands": [
     {
-      "name": "vms",
+      "name": "index",
       "title": "Manage VMs",
       "subtitle": "Proxmox",
       "description": "Manage your Proxmox VMs from Raycast",
@@ -31,7 +31,8 @@
       "description": "Manage your Proxmox storage from Raycast",
       "mode": "view",
       "keywords": [
-        "pve"
+        "pve",
+        "storage"
       ]
     }
   ],
