@@ -1,5 +1,13 @@
 # Proxmox Changelog
 
+## [Updates] - {PR_MERGE_DATE}
+
+- Cleanup codebase, refactored almost all code to separate files
+- Added action to open a Qemu/LXC dashboard in the browser
+- Added storage list and details
+- Added action to show the contents of a storage
+- Removed the mock data, made it optional in the code to use it, instead of depending on an ENV variable
+
 ## [Maintenance Release] - 2025-09-05
 
 - show status in `tooltip`
