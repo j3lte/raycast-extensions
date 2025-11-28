@@ -7,6 +7,8 @@
 - Added storage list and details
 - Added action to show the contents of a storage
 - Removed the mock data, made it optional in the code to use it, instead of depending on an ENV variable
+- Updated screenshots
+- Added a small troubleshooting section in the README
 
 ## [Maintenance Release] - 2025-09-05
 
