@@ -1,6 +1,6 @@
 import { Action, ActionPanel, Icon, List } from "@raycast/api";
 import { useStorageContent } from "@/hooks/use-storage-content";
-import { formatNumberAsSize } from "@/utils/format";
+import { formatStorageSize } from "@/utils/format";
 import { ErrorGuard } from "@/components/ErrorGuard";
 
 type StorageContentListProps = {
@@ -28,7 +28,7 @@ export const StorageContentList = ({ node, id }: StorageContentListProps) => {
                     <List.Item.Detail.Metadata.Label title="Content" text={item.content ?? ""} />
                     <List.Item.Detail.Metadata.Label title="Format" text={item.format ?? ""} />
                     <List.Item.Detail.Metadata.Separator />
-                    <List.Item.Detail.Metadata.Label title="Size" text={formatNumberAsSize(item.size)} />
+                    <List.Item.Detail.Metadata.Label title="Size" text={formatStorageSize(item.size)} />
                   </List.Item.Detail.Metadata>
                 }
               />

@@ -1,4 +1,3 @@
-import { filesize } from "filesize";
 import { getPreferenceValues } from "@raycast/api";
 
 export function formatShortTime(time: number): string {
@@ -29,7 +28,11 @@ export function formatPercentage(value: number): string {
   return `${(value * 100).toFixed(2)} %`;
 }
 
-export function formatStorageSize(size: number): string {
+export function formatStorageSize(size?: number): string {
+  if (size === undefined) {
+    return "Unknown";
+  }
+
   const units = ["K", "M", "G", "T", "P"];
   let unitIndex = -1;
 
@@ -51,8 +54,6 @@ export function formatCPU(maxcpu: number): string {
 
 export const formatNumberAsBoolean = (value: number | undefined): string =>
   typeof value === "number" ? (value === 1 ? "Yes" : "No") : "Unknown";
-export const formatNumberAsSize = (value: number | undefined): string =>
-  typeof value === "number" ? filesize(value) : "Unknown";
 
 export const formatBrowserUrl = (suffix: string) => {
   const preferences = getPreferenceValues<Preferences>();

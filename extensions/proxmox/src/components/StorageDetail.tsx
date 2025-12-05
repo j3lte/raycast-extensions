@@ -1,7 +1,7 @@
 import { List } from "@raycast/api";
 import type { PveStorageParsed } from "@/types";
 import { useStorageStatus } from "@/hooks/use-storage-status";
-import { formatNumberAsBoolean, formatNumberAsSize } from "@/utils/format";
+import { formatNumberAsBoolean, formatStorageSize } from "@/utils/format";
 import { ErrorDetailGuard } from "@/components/ErrorDetailGuard";
 
 type StorageDetailProps = {
@@ -24,9 +24,9 @@ export const StorageDetail = ({ storage }: StorageDetailProps) => {
             {data !== undefined ? (
               <>
                 <List.Item.Detail.Metadata.Separator />
-                <List.Item.Detail.Metadata.Label title="Total" text={formatNumberAsSize(data.total)} />
-                <List.Item.Detail.Metadata.Label title="Used" text={formatNumberAsSize(data.used)} />
-                <List.Item.Detail.Metadata.Label title="Available" text={formatNumberAsSize(data.avail)} />
+                <List.Item.Detail.Metadata.Label title="Total" text={formatStorageSize(data.total)} />
+                <List.Item.Detail.Metadata.Label title="Used" text={formatStorageSize(data.used)} />
+                <List.Item.Detail.Metadata.Label title="Available" text={formatStorageSize(data.avail)} />
               </>
             ) : (
               <List.Item.Detail.Metadata.Label title="Max disk" text={storage.maxdiskParsed} />

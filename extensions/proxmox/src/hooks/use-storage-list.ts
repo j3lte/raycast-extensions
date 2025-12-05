@@ -1,8 +1,8 @@
-import { filesize } from "filesize";
 import { useState } from "react";
 import { showFailureToast } from "@raycast/utils";
 import type { PveStorageParsed, WithShowErrorScreen } from "@/types";
 import { type PveFetchWithDataResult, usePveFetch } from "@/hooks/use-pve-fetch";
+import { formatStorageSize } from "@/utils/format";
 
 export const useStorageList = (mock = false): WithShowErrorScreen<PveFetchWithDataResult<PveStorageParsed[]>> => {
   const [showErrorScreen, setShowErrorScreen] = useState<boolean>(false);
@@ -28,7 +28,7 @@ export const useStorageList = (mock = false): WithShowErrorScreen<PveFetchWithDa
         .map((type) => type.trim())
         .filter((type) => type !== "")
         .sort((a, b) => a.localeCompare(b)),
-      maxdiskParsed: filesize(storage.maxdisk),
+      maxdiskParsed: formatStorageSize(storage.maxdisk),
     })) ?? [];
 
   return {
