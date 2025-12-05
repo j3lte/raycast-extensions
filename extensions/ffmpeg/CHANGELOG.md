@@ -1,5 +1,12 @@
 # FFmpeg Changelog
 
+## [Updates] - {PR_MERGE_DATE}
+
+- Update dependencies to latest versions.
+- Fix linting errors.
+- Add AI tools to get help (so you can create a command yourself) and list a variety of things (formats, codecs, etc.)
+- Update fileDetail component to use proper React formatting.
+
 ## [✨ AI Enhancements] - 2025-02-21
 
 ## [Added conversion option and percentage progress] - 2023-10-17
