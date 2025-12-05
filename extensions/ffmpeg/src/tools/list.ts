@@ -38,9 +38,13 @@ type Input = {
     | "hwaccels";
 };
 
-import { executeFFmpegCommand } from "../utils/ffmpeg";
+import { executeFFmpegCommandAsync } from "../utils/ffmpeg";
 export default async function ({ list }: Input) {
+  let output = "";
   const listCommand = `-${list} -hide_banner`;
-  const output = executeFFmpegCommand(listCommand);
-  return { output };
+  const code = await executeFFmpegCommandAsync({ command: listCommand, onContent: (content) => (output += content) });
+  if (code === 0) {
+    return { output };
+  }
+  return { output: `Failed to list ${list}, exit code: ${code}` };
 }
