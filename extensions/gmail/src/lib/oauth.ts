@@ -1,5 +1,4 @@
 import { OAuth, getPreferenceValues } from "@raycast/api";
-import fetch from "cross-fetch";
 
 // Create an OAuth client ID via https://console.developers.google.com/apis/credentials
 // As application type choose "iOS" (required for PKCE)
@@ -26,7 +25,7 @@ export async function authorize(): Promise<void> {
       try {
         const newTokens = await refreshTokens(tokenSet.refreshToken);
         await client.setTokens(newTokens);
-      } catch (error) {
+      } catch {
         // refresh failed, remove tokens to force re-login from user
         await client.removeTokens();
       }
@@ -70,9 +69,9 @@ async function refreshTokens(refreshToken: string): Promise<OAuth.TokenResponse>
   if (!response.ok) {
     let ed = "";
     try {
-      const rt = await response.json();
+      const rt = (await response.json()) as { error_description: string };
       ed = rt.error_description || (await response.text());
-    } catch (error) {
+    } catch {
       ed = await response.text();
     }
     console.error("refresh tokens error:", ed);

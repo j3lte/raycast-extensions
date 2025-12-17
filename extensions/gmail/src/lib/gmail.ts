@@ -1,8 +1,8 @@
 import { gmail as gmailclient, auth, gmail_v1 } from "@googleapis/gmail";
 import { authorize, client, OAuthClientId } from "./oauth";
-import { GaxiosResponse } from "googleapis-common";
+import { GaxiosResponseWithHTTP2 } from "googleapis-common";
 
-let profile: GaxiosResponse<gmail_v1.Schema$Profile>;
+let profile: GaxiosResponseWithHTTP2<gmail_v1.Schema$Profile>;
 
 export async function getAuthorizedGmailClient() {
   await authorize();
@@ -42,7 +42,7 @@ export async function getGMailLabels(gmail: gmail_v1.Gmail) {
 export async function getGMailMessageIds(
   gmail: gmail_v1.Gmail,
   query?: string,
-): Promise<GaxiosResponse<gmail_v1.Schema$ListMessagesResponse> | undefined> {
+): Promise<GaxiosResponseWithHTTP2<gmail_v1.Schema$ListMessagesResponse> | undefined> {
   const messages = await gmail.users.messages.list({ userId: "me", q: query, maxResults: 50 });
   return messages;
 }

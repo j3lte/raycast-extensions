@@ -117,7 +117,7 @@ export function GMailMessageListItem(props: {
               )}
               <List.Item.Detail.Metadata.TagList title="To">
                 {toRecipients?.map((r) => (
-                  <List.Item.Detail.Metadata.TagList.Item text={r} icon={getAvatarIcon(getFirstValidLetter(r) || "")} />
+                  <List.Item.Detail.Metadata.TagList.Item key={`recipient-${r}`} text={r} icon={getAvatarIcon(getFirstValidLetter(r) || "")} />
                 ))}
               </List.Item.Detail.Metadata.TagList>
               {labels && labels.length > 0 && (
