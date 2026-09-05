@@ -7,6 +7,7 @@ import { isEmpty } from "@/utils";
 import { TestMirrors } from "@/screens/TestMirrors";
 import { ArchiveListItem } from "@/components/ArchiveListItem";
 import { TestMirrorsAction } from "@/components/TestMirrorsAction";
+import { isBotProtectionError } from "@/api/search-error";
 import { FILE_TYPES } from "@/constants";
 import { rankArchiveItems } from "@/utils/ranking";
 
@@ -30,7 +31,7 @@ const Command = () => {
     [setFilter],
   );
 
-  const { data, error, isLoading } = useArchive(usedMirror.url, onErrorPrimaryAction, search, filter);
+  const { data, error, isLoading, searchUrl } = useArchive(usedMirror.url, onErrorPrimaryAction, search, filter);
 
   const listData = useMemo(() => {
     if (!data || search.length === 0) {
@@ -49,6 +50,24 @@ const Command = () => {
     return { title: "Search on Anna's Archive" };
   }, [listData, isLoading, search]);
 
+  const errorView = useMemo(() => {
+    if (!error) {
+      return null;
+    }
+    if (isBotProtectionError(error)) {
+      return {
+        title: "Search blocked by bot protection",
+        description:
+          "Anna's Archive is showing a browser check (DDoS-Guard). Test Mirrors can still look fine because it only pings the host. Open this search in your browser to continue, or paste a Cookie header from that session in extension preferences.",
+      };
+    }
+    return {
+      title: "Whoops! Something went wrong.",
+      description:
+        "An error occurred. The selected mirror may be down. Press Enter to test mirrors, or copy the error message and report the issue.",
+    };
+  }, [error]);
+
   return (
     <List
       isLoading={isLoading}
@@ -66,19 +85,18 @@ const Command = () => {
         </List.Dropdown>
       }
     >
-      {error && (
+      {error && errorView && (
         <List.EmptyView
-          title="Whoops! Something went wrong."
-          description={
-            "An error occurred! It might be that the mirror is down. Please press Enter to test the mirrors and maybe change to a different one in your extension preferences. If all are down, please copy the error message (See Actions) and report the issue."
-          }
+          title={errorView.title}
+          description={errorView.description}
           icon={{ source: Icon.WifiDisabled }}
           actions={
             <ActionPanel>
+              {searchUrl ? <Action.OpenInBrowser title="Open Search in Browser" url={searchUrl} /> : null}
               <TestMirrorsAction />
               <Action.CopyToClipboard
                 title="Copy Error Message"
-                content={`Mirror: ${usedMirror.url}\nError: ${error.message}\nStack: ${error.stack}\nSearch: ${search}`}
+                content={`Mirror: ${usedMirror.url}\nError: ${error.message}\nStack: ${error.stack}\nSearch: ${search}\nURL: ${searchUrl ?? ""}`}
                 icon={Icon.Clipboard}
               />
             </ActionPanel>

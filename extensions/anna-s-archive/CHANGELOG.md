@@ -1,5 +1,12 @@
 # Anna's Archive Changelog
 
+## [Improvements] - {PR_MERGE_DATE}
+
+- Detect DDoS-Guard search blocks and explain them instead of blaming a down mirror.
+- Log search failures to the Raycast console and add Open Search in Browser on the error view.
+- Remove `annas-archive.vg` (invalid TLS certificate).
+- Optional browser Cookie header for search requests after you have opened the site once.
+
 ## [Improvements] - 2026-06-03
 
 - Add EPUB slow-download and member fast-download actions.

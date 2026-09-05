@@ -111,7 +111,6 @@ export const DOC_TYPES = [
 export const MIRROR_LIST = [
   "https://annas-archive.gl",
   "https://annas-archive.pk",
-  "https://annas-archive.vg",
   "https://annas-archive.gd",
 ] as const;
 

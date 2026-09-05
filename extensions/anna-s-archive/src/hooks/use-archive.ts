@@ -1,6 +1,13 @@
 import { useMemo } from "react";
+import { getPreferenceValues, open } from "@raycast/api";
 import { showFailureToast, useFetch } from "@raycast/utils";
 import { type ArchiveItem, parseArchivePage } from "@/api";
+import {
+  errorMessageForSearchResponse,
+  isBotProtectionError,
+  isBotProtectionPage,
+  logSearchFailure,
+} from "@/api/search-error";
 import { FILE_TYPES, type FileType, USER_AGENT } from "@/constants";
 
 export type ArchiveFilter = "all" | FileType;
@@ -25,6 +32,8 @@ export const useArchive = (
     return null;
   }, [baseURL, filter, queryText]);
 
+  const browserCookies = getPreferenceValues<Preferences>().browserCookies?.trim() ?? "";
+
   const {
     data: list,
     error,
@@ -33,28 +42,28 @@ export const useArchive = (
   } = useFetch<ArchiveItem[]>(url ?? "", {
     headers: {
       "User-Agent": USER_AGENT,
+      ...(browserCookies ? { Cookie: browserCookies } : {}),
     },
     execute: url !== null,
     parseResponse: async (response) => {
-      if (!response.ok) {
-        const errorMessages: Record<number, string> = {
-          404: "No results found",
-          500: "Internal server error",
-          502: "Bad gateway",
-          503: "Service unavailable",
-        };
-        const message = errorMessages[response.status] ?? "Network response was not ok";
-        throw new Error(`${message}: ${response.statusText}`);
-      }
       const text = await response.text();
+      if (!response.ok || isBotProtectionPage(response, text)) {
+        logSearchFailure(response, text);
+        throw new Error(errorMessageForSearchResponse(response, text));
+      }
       return parseArchivePage(text);
     },
     onError: (error) => {
+      console.error("[anna-s-archive] search error", error);
+      const botProtection = isBotProtectionError(error);
       showFailureToast(error, {
-        title: "Failed to fetch data",
-        primaryAction: onErrorPrimaryAction
-          ? { title: "Test Mirrors", onAction: () => onErrorPrimaryAction() }
-          : undefined,
+        title: botProtection ? "Search blocked by bot protection" : "Failed to fetch data",
+        primaryAction:
+          botProtection && url
+            ? { title: "Open in Browser", onAction: () => open(url) }
+            : onErrorPrimaryAction
+              ? { title: "Test Mirrors", onAction: () => onErrorPrimaryAction() }
+              : undefined,
       });
     },
   });
@@ -64,5 +73,6 @@ export const useArchive = (
     isLoading,
     error,
     revalidate,
+    searchUrl: url,
   };
 };
